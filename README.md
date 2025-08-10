@@ -20,7 +20,9 @@ It’s designed to deliver intelligent, natural Persian responses for various co
 **Backend**  
 - [Django](https://www.djangoproject.com/) – REST API & business logic  
 - Django REST Framework – API development  
-- SQLite / PostgreSQL – Database (choose as per deployment)  
+- Django Channels
+- Simple JWT & allauth (for OAuth)
+- PostgreSQL & Redis Database  
 
 **Frontend**  
 - [React](https://react.dev/) – UI components & state management  
@@ -35,8 +37,8 @@ IR-GPT/
 │
 ├── backend/ # Django backend
 │ ├── manage.py
-│ ├── irgpt/ # Project settings
-│ ├── chat/ # Chatbot app
+│ ├── IRGPT/ # Project settings
+│ ├── api/ # api app
 │ └── requirements.txt
 │
 ├── frontend/ # React frontend
