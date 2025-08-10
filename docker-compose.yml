@@ -10,12 +10,16 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
-
+  redis:
+    image: redis:latest
+    ports:
+      - "6379:6379"
+    
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile.dev
-    command: python manage.py runserver 0.0.0.0:8000
+    command: uvicorn IRGPT.asgi:application --host 0.0.0.0 --port 8000 --reload
     volumes:
       - ./backend:/app
     working_dir: /app
@@ -25,5 +29,6 @@ services:
       - .env
     depends_on:
       - db
+      - redis
 volumes:
   postgres_data:
