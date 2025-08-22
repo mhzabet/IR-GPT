@@ -4,7 +4,7 @@ from decouple import Config
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-config = Config(BASE_DIR / ".env")
+config = Config(str(BASE_DIR / ".env"))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/5.2/howto/deployment/checklist/
@@ -22,6 +22,7 @@ ALLOWED_HOSTS = []
 
 INSTALLED_APPS = [
     'daphne',
+    'channels',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -29,7 +30,6 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'rest_framework',
-    'channels',
     'api',
 ]
 
@@ -63,20 +63,12 @@ TEMPLATES = [
     },
 ]
 
-WSGI_APPLICATION = 'IRGPT.wsgi.application'
+# Async Web server gateway interface setup.
 
 ASGI_APPLICATION = "IRGPT.asgi.application"
-CHANNEL_LAYERS = {
-    "default": {
-        "BACKEND": "channels_redis.core.RedisChannelLayer",
-        "CONFIG": {
-            "hosts": [("localhost", 6379)],
-        },
-    },
-}
 
-# Database
-# https://docs.djangoproject.com/en/5.2/ref/settings/#databases
+
+# Database (Postgres)
 
 DATABASES = {
     'default': {
@@ -89,9 +81,17 @@ DATABASES = {
     }
 }
 
+# Channel layer configuration (redis)
+CHANNEL_LAYERS = {
+    "default": {
+        "BACKEND": "channels_redis.core.RedisChannelLayer",
+        "CONFIG": {
+            "hosts": [(config('REDIS_HOST'), config('REDIS_PORT', cast=int, default=6379))],
+        },
+    },
+}
 
 # Password validation
-# https://docs.djangoproject.com/en/5.2/ref/settings/#auth-password-validators
 
 AUTH_PASSWORD_VALIDATORS = [
     {
