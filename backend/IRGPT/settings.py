@@ -70,7 +70,7 @@ CHANNEL_LAYERS = {
     "default": {
         "BACKEND": "channels_redis.core.RedisChannelLayer",
         "CONFIG": {
-            "hosts": [("localhost", 6379)],  # یا "redis" اگر داکر داری
+            "hosts": [("localhost", 6379)],
         },
     },
 }

@@ -1,51 +1,114 @@
-# IR-GPT
 
-**IR-GPT** is a Persian-language AI chatbot powered by GPT, built with **Django** for the backend and **React** for the frontend.  
-It’s designed to deliver intelligent, natural Persian responses for various conversational use cases.
-
----
-
-## 🚀 Features
-
-- 💬 **Persian AI Chat** – Smooth, natural conversations in Persian.  
-- ⚡ **Real-time Communication** – Fast responses via API integration.  
-- 🛠 **Full-Stack Architecture** – Django backend + React frontend.  
-- 🎨 **Responsive UI** – Works across devices.  
-- 🔒 **Secure & Scalable** – Built with best practices for API security.
+# IR-GPT 🤖  
+[![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat&logo=python)](https://www.python.org/)  
+[![Django](https://img.shields.io/badge/Django-5.x-green?style=flat&logo=django)](https://www.djangoproject.com/)  
+[![React](https://img.shields.io/badge/React-18-blue?style=flat&logo=react)](https://react.dev/)  
+[![Docker](https://img.shields.io/badge/Docker-Enabled-blue?style=flat&logo=docker)](https://www.docker.com/)  
+[![OpenAI](https://img.shields.io/badge/OpenAI-API-black?style=flat&logo=openai)](https://openai.com/)  
 
 ---
 
-## 🏗 Tech Stack
-
-**Backend**  
-- [Django](https://www.djangoproject.com/) – REST API & business logic  
-- Django REST Framework – API development  
-- Django Channels
-- Simple JWT & allauth (for OAuth)
-- PostgreSQL & Redis Database  
-
-**Frontend**  
-- [React](https://react.dev/) – UI components & state management  
-- Axios – API calls  
-- TailwindCSS / CSS Modules – Styling
+## 📌 Overview
+IR-GPT is an **AI-powered chatbot for Persian speakers**, built on **OpenAI API**. It provides a ChatGPT-like experience fully optimized for **Farsi** with a responsive and modern UI.
 
 ---
 
-## 📂 Project Structure
+## ✅ Features
+- Chat in **Persian** (and multi-language support)
+- Save **conversation history**
+- User authentication (**JWT or Session-based**)
+- Adjustable model settings (temperature, max tokens)
+- Modern **React UI** with TailwindCSS
+
+---
+
+## 🛠 Tech Stack
+**Backend:**
+- Django 5.x
+- Django Rest Framework
+- Django Channels (realtime)
+- PostgreSQL
+- Celery + Redis (async tasks)
+
+**Frontend:**
+- React 18
+- Tailwind CSS
+- Axios
+
+**Others:**
+- OpenAI GPT API (Free)
+- Docker for containerization
+
+---
+
+## 📦 Installation & Setup
+
+## ⚙️ Environment Variables
+Create a `.env` file inside **backend/** and add:
+
+| Variable         | Description                | Example                        |
+|------------------|----------------------------|--------------------------------|
+| `OPENAI_API_KEY` | Your OpenAI API Key        | ``                             |
+| `DEBUG`          | Django Debug Mode          | `True` or `False`              |
+| `DATABASE_URL`   | PostgreSQL Connection      | `postgres://user:pass@host/db` |
+
+---
+
+## 🏗 Project Structure
 ```
-IR-GPT/
+ir-gpt/
 │
-├── backend/ # Django backend
-│ ├── manage.py
-│ ├── IRGPT/ # Project settings
-│ ├── api/ # api app
-│ └── requirements.txt
+├── backend/
+│   ├── manage.py
+│   ├── ir_gpt/
+│   │   ├── settings.py
+│   │   ├── urls.py
+│   │   ├── wsgi.py
+│   ├── api/
+│       ├── models.py
+│       ├── views.py
+│       ├── serializers.py
+│       ├── tasks.py
 │
-├── frontend/ # React frontend
-│ ├── src/
-│ ├── public/
-│ └── package.json
-│
-├── README.md
-└── .gitignore
+└── frontend/
+    ├── src/
+        ├── components/
+        ├── pages/
+        ├── services/
 ```
+
+---
+
+
+## 🧪 Running Tests
+
+
+---
+
+## 🐳 Docker Setup
+
+
+---
+
+## 👨‍💻 Contribution Guide
+We welcome contributions!  
+1. Fork the project
+2. Create a branch:  
+
+
+## 📸 Screenshots
+
+**Demo GIF:**  
+
+---
+
+## 🔐 Security Notes
+- Keep your `OPENAI_API_KEY` secret
+- Implement **Rate Limiting** to avoid abuse
+
+---
+
+## 📄 License
+This project is licensed under the **MIT License**.
+
+---
