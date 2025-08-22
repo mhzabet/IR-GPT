@@ -1,6 +1,6 @@
 
 # IR-GPT 🤖  
-[![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat&logo=python)](https://www.python.org/)  [![Django](https://img.shields.io/badge/Django-5.x-green?style=flat&logo=django)](https://www.djangoproject.com/)  [![React](https://img.shields.io/badge/React-18-blue?style=flat&logo=react)](https://react.dev/)  [![Docker](https://img.shields.io/badge/Docker-Enabled-blue?style=flat&logo=docker)](https://www.docker.com/)  [![OpenAI](https://img.shields.io/badge/OpenAI-API-black?style=flat&logo=openai)](https://openai.com/)  
+[![Python](https://img.shields.io/badge/Python-3.11-blue?style=flat&logo=python)](https://www.python.org/)  [![Django](https://img.shields.io/badge/Django-5.x-green?style=flat&logo=django)](https://www.djangoproject.com/)![Django Channels](https://img.shields.io/badge/Django%20Channels-3.x-0A66C2?style=flat&logo=django) ![WebSocket](https://img.shields.io/badge/WebSocket-Enabled-FF6C37?style=flat&logo=websocket)[![React](https://img.shields.io/badge/React-18-blue?style=flat&logo=react)](https://react.dev/)  [![Docker](https://img.shields.io/badge/Docker-Enabled-blue?style=flat&logo=docker)](https://www.docker.com/)  [![OpenAI](https://img.shields.io/badge/OpenAI-API-black?style=flat&logo=openai)](https://openai.com/)  
 ---
 
 ## 📌 Overview
