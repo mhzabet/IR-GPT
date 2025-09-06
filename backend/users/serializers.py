@@ -21,6 +21,7 @@ class RegisterUserSerializer(BaseUserSerializer):
     password2 = serializers.CharField(max_length=250, required=True, write_only=True)
 
     class Meta:
+        model = BaseUserSerializer.Meta.model
         fields = BaseUserSerializer.Meta.fields + ['password','password2']
 
     def validate(self, attrs):
