@@ -94,8 +94,12 @@ CHANNEL_LAYERS = {
 REST_FRAMEWORK = {
         'DEFAULT_AUTHENTICATION_CLASSES': (
         'rest_framework_simplejwt.authentication.JWTAuthentication',
-    )
-
+    ),
+     'DEFAULT_THROTTLE_RATES': {
+        'anon': '100/day',  # Global anonymous rate
+        'user': '1000/day', # Global user rate
+        'resend_verification': '3/10min',  # Custom rate for verification
+    }
 }
 
 # Password validation
