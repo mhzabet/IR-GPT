@@ -6,8 +6,10 @@ from django.http import Http404
 from django.core.cache import cache
 from django.core.mail import send_mail
 from django.conf import settings
+from django.utils.crypto import get_random_string
+
 from .models import CustomUser
-from .serializers import RegisterUserSerializer, BaseUserSerializer
+from .serializers import RegisterUserSerializer, BaseUserSerializer, PasswordResetRequestSerializer, ResetPasswordSerializer
 from .thorttlings import ResendVerificationThrottle
 
 from .utils import generate_secure_verification_code
@@ -99,3 +101,22 @@ class EmailVerificationView(APIView):
             except CustomUser.DoesNotExist:
                 return Response({"datail":"Provided user is not found."}, status=status.HTTP_404_NOT_FOUND)
         return Response({"detail":"Provided verification code may invalid or expired."})
+
+class PasswordResetRequestView(APIView):
+    def post(self, request, format=None):
+        serializer = PasswordResetRequestSerializer(data=request.data)
+        serializer.is_valid(raise_exception=True)
+
+        email = serializer.validated_data['email']
+
+        # generate token for reset password request
+        token = get_random_string(20)
+        cache.set(f"password-reset:{email}", token, timeout=600) # 10 min expiry.
+
+        # send mail
+
+        send_mail(
+            "Reset you'r password.",
+            f"Use this token to reset your password: {token}",
+            # stage here.
+        )
