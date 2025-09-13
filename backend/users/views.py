@@ -102,7 +102,7 @@ class EmailVerificationView(APIView):
                 return Response({"datail":"Account verified successfully."}, status=status.HTTP_200_OK)
             except User.DoesNotExist:
                 return Response({"datail":"Provided user is not found."}, status=status.HTTP_404_NOT_FOUND)
-        return Response({"detail":"Provided verification code may invalid or expired."})
+        return Response({"detail":"Provided verification code may invalid or expired."}, status=status.HTTP_400_BAD_REQUEST)
 
 class PasswordResetRequestView(APIView):
     def post(self, request, format=None):
