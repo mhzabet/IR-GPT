@@ -3,9 +3,14 @@ from rest_framework.test import APIClient
 from rest_framework import status
 from django.contrib.auth import get_user_model
 from django.core.cache import cache
+from unittest.mock import patch
+from django.utils.http import urlsafe_base64_encode
+from django.utils.encoding import force_bytes
+from django.contrib.auth.tokens import PasswordResetTokenGenerator
+
 User = get_user_model()
 
-class TestEmailVerficationView(TestCase):
+class TestEmailVerficationIntegration(TestCase):
 
     def setUp(self):
         self.user_data = {
@@ -34,7 +39,7 @@ class TestEmailVerficationView(TestCase):
         self.assertEqual(verify.status_code, status.HTTP_200_OK)
         self.assertEqual(verify.data['datail'], 'Account verified successfully.')
 
-class TestResendVerificationCodeView(TestCase):
+class TestResendVerificationCodeIntegration(TestCase):
 
     def setUp(self):
         self.client = APIClient()
@@ -92,3 +97,45 @@ class TestResendVerificationCodeView(TestCase):
         verify_response = self.client.post(self.verify_uri, data=verify_data)
         self.assertEqual(verify_response.status_code, status.HTTP_400_BAD_REQUEST)
         self.assertEqual(verify_response.data['detail'], 'Provided verification code may invalid or expired.')
+
+class TestPasswordResetIntegration(TestCase):
+
+    def setUp(self):
+        self.client = APIClient()
+        self.user = User.objects.create_user(
+            username='testuser',
+            email='test@mail.com',
+            password='Old_Pass123'
+        )
+        self.reset_request_uri = '/account/user/request-password-reset/'
+        self.reset_confirm_uri = '/account/user/password-reset/'
+
+    @patch('users.views.send_mail')  # mock email sending
+    def test_password_reset_flow(self, mock_send_mail):
+        """Integrated test: request reset → confirm reset → password updated"""
+
+        # Step 1: Request password reset
+        request_data = {'email': self.user.email}
+        response = self.client.post(self.reset_request_uri, data=request_data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['detail'], 'Password reset link sent to your email.')
+        mock_send_mail.assert_called_once()  # email was "sent"
+
+        # Step 2: Generate uid and token as the view would
+        uidb64 = urlsafe_base64_encode(force_bytes(self.user.id))
+        token = PasswordResetTokenGenerator().make_token(self.user)
+
+        # Step 3: Confirm password reset
+        confirm_data = {
+            'uidb64': uidb64,
+            'token': token,
+            'new_password': 'New_Pass123',
+            'confirm_new_password': 'New_Pass123'
+        }
+        confirm_response = self.client.post(self.reset_confirm_uri, data=confirm_data)
+        self.assertEqual(confirm_response.status_code, status.HTTP_200_OK)
+        self.assertEqual(confirm_response.data['detail'], 'Password reset successfully.')
+
+        # Step 4: Verify password actually changed in DB
+        self.user.refresh_from_db()
+        self.assertTrue(self.user.check_password('New_Pass123'))

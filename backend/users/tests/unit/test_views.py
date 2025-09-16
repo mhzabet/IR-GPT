@@ -40,7 +40,6 @@ class TestRegisterUserView(TestCase):
 class TestRestPasswordView(TestCase):
 
     def setUp(self):
-
         self.data = {
             'email': 'test@mail.com'
         }
@@ -51,6 +50,7 @@ class TestRestPasswordView(TestCase):
         )
         self.client = APIClient()
         self.reset_uri = '/account/user/request-password-reset/'
+
     def test_password_request(self):
         response = self.client.post(self.reset_uri, data=self.data)
         self.assertEqual(response.status_code, status.HTTP_200_OK)
@@ -61,4 +61,41 @@ class TestRestPasswordView(TestCase):
         invalid_data['email'] = 'invalid@mail.com'
         response = self.client.post(self.reset_uri, data=invalid_data)
         self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+class TestChangePasswordView(TestCase):
     
+    def setUp(self):
+
+        self.data = {
+            "old_password":"Old_Pass123",
+            "new_password":"New_Pass123",
+            "confirm_new_password": "New_Pass123"
+        }
+        self.user = User.objects.create_user(
+            'testuser', 'test@mail.com', self.data['old_password']
+        )
+        self.client = APIClient()
+        self.uri = '/account/user/change-password/'
+    def test_change_validation(self):
+        self.client.force_authenticate(user=self.user)
+
+        response = self.client.post(self.uri, data=self.data)
+        self.assertEqual(response.status_code, status.HTTP_200_OK)
+        self.assertEqual(response.data['detail'], 'Password changed successfully.')
+    
+    def test_mismatch_password(self):
+        self.client.force_authenticate(user=self.user)
+
+        invalid_data = self.data.copy()
+        invalid_data['new_password'] = 'FakeNew_Pass123'
+        response = self.client.post(self.uri, data=invalid_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
+
+    def test_invalid_password(self):
+        
+        self.client.force_authenticate(user=self.user)
+
+        invalid_data = self.data.copy()
+        invalid_data['old_password'] = 'FakeNew_Pass123'
+        response = self.client.post(self.uri, data=invalid_data)
+        self.assertEqual(response.status_code, status.HTTP_400_BAD_REQUEST)
