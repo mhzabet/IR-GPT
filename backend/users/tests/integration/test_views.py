@@ -37,7 +37,7 @@ class TestEmailVerficationIntegration(TestCase):
         }
         verify = self.client.post(self.verify_uri, data=data)
         self.assertEqual(verify.status_code, status.HTTP_200_OK)
-        self.assertEqual(verify.data['datail'], 'Account verified successfully.')
+        self.assertEqual(verify.data['detail'], 'Account verified successfully.')
 
 class TestResendVerificationCodeIntegration(TestCase):
 
@@ -65,7 +65,7 @@ class TestResendVerificationCodeIntegration(TestCase):
         }
         verify_response = self.client.post(self.verify_uri, data=verify_data)
         self.assertEqual(verify_response.status_code, status.HTTP_200_OK)
-        self.assertEqual(verify_response.data['datail'], 'Account verified successfully.')
+        self.assertEqual(verify_response.data['detail'], 'Account verified successfully.')
     
     def test_attemption_protection(self):
         i = 0

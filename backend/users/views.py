@@ -99,9 +99,9 @@ class EmailVerificationView(APIView):
                 user.save()
 
                 cache.delete(f"code:{email}")
-                return Response({"datail":"Account verified successfully."}, status=status.HTTP_200_OK)
+                return Response({"detail":"Account verified successfully."}, status=status.HTTP_200_OK)
             except User.DoesNotExist:
-                return Response({"datail":"Provided user is not found."}, status=status.HTTP_404_NOT_FOUND)
+                return Response({"detail":"Provided user is not found."}, status=status.HTTP_404_NOT_FOUND)
         return Response({"detail":"Provided verification code may invalid or expired."}, status=status.HTTP_400_BAD_REQUEST)
 
 class PasswordResetRequestView(APIView):
