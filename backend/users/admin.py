@@ -3,7 +3,6 @@ from .models import CustomUser
 from django.contrib.admin import register
 
 
-
 @register(CustomUser)
 class CustomuUserAdmin(admin.ModelAdmin):
     list_display = ['username', 'is_active', 'is_staff', 'is_superuser']

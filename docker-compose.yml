@@ -10,6 +10,18 @@ services:
       - postgres_data:/var/lib/postgresql/data
     ports:
       - "5432:5432"
+# Archive PostgreSQL for old messages
+  db_archive:
+    image: postgres:15
+    container_name: irgpt_db_archive
+    environment:
+      POSTGRES_DB: ${DB_ARCHIVE_NAME}
+      POSTGRES_USER: ${DB_ARCHIVE_USER}
+      POSTGRES_PASSWORD: ${DB_ARCHIVE_PASS}
+    ports:
+      - "5433:5432"  # different host port
+    volumes:
+      - db_archive_data:/var/lib/postgresql/data
   redis:
     image: redis:latest
     ports:
@@ -30,5 +42,7 @@ services:
     depends_on:
       - db
       - redis
+      - db_archive
 volumes:
   postgres_data:
+  db_archive_data:

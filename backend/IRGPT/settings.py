@@ -78,8 +78,18 @@ DATABASES = {
         'PASSWORD': config('DB_PASSWORD'),
         'HOST': config('DB_HOST', default='localhost'),
         'PORT': config('DB_PORT', default='5432'),
+    },
+    "archive":{
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': config('DB_ARCHIVE_NAME'),
+        'USER': config('DB_ARCHIVE_USER'),
+        'PASSWORD': config('DB_ARCHIVE_PASS'),
+        'HOST': config('DB_ARCHIVE_HOST', default='localhost'),
+        'PORT': config('DB_ARCHIVE_PORT', default='5432'),
     }
 }
+
+DATABASE_ROUTES = ['IRGPT.db_routers.ArchiveRouter']
 
 # Channel layer configuration (redis)
 CHANNEL_LAYERS = {
