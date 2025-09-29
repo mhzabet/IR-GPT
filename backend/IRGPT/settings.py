@@ -180,3 +180,6 @@ EMAIL_PORT = 587
 
 # Site's settings
 SITE_ID = 1
+
+# OPENAI Settings
+OPENAI_API_KEY = config('OPENAI_API_KEY', cast=str)

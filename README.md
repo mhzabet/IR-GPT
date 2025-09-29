@@ -72,6 +72,21 @@ ir-gpt/
         ├── pages/
         ├── services/
 ```
+---
+
+## 📝 Application Flow
+
+```
+    API:
+        User → WebSocket (Django Channels)
+        → Save message in Postgres
+        → Publish task to RabbitMQ ("gpt_processing_queue")
+        → Celery worker consumes task
+            → Calls GPT API, streams back via WebSocket
+            → Updates DB (usage, status)
+        → Another queue ("archiving_queue") handles old messages
+        → Another queue ("billing_queue") tracks usage/quota
+```
 
 ---
 
