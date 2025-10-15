@@ -184,3 +184,13 @@ SITE_ID = 1
 
 # OPENAI Settings
 OPENAI_API_KEY = config('OPENAI_API_KEY', cast=str)
+
+# CELERY Settings
+CELERY_BROKER_URL = f'amqp://guest:guest@{config('RABBITMQ_HOST', cast=str)}:{config('RABBITMQ_PORT', cast=int)}//'
+CELERY_RESULT_BACKEND = f'redis://{config('REDIS_HOST', cast=str)}:{config('REDIS_PORT', cast=int)}/2'  # use Redis
+CELERY_ACCEPT_CONTENT = ['json']
+CELERY_TASK_SERIALIZER = 'json'
+CELERY_RESULT_SERIALIZER = 'json'
+CELERY_TIMEZONE = "Asia/Tehran"
+CELERY_TASK_TRACK_STARTED = True
+CELERY_TASK_TIME_LIMIT = 30 * 60

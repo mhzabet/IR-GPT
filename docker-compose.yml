@@ -1,5 +1,10 @@
 
 services:
+  rabbitmq:
+    image: rabbitmq:3-management
+    ports:
+      - "5672:5672"
+      - "15672:15672"
   db:
     image: postgres:latest
     environment:
@@ -43,6 +48,7 @@ services:
       - db
       - redis
       - db_archive
+      - rabbitmq
 volumes:
   postgres_data:
   db_archive_data:
