@@ -68,3 +68,4 @@ pytest-asyncio
 pytest-django
 pika==1.3.2
 celery
+weave
